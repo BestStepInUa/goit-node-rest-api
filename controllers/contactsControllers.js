@@ -21,8 +21,7 @@ const getAll = async (req, res, next) => {
 // };
 
 const addContact = async (req, res, next) => {
-  const { name, email, phone } = req.body;
-  const result = await contactsService.addContact(name, email, phone);
+  const result = await contactsService.addContact(req.body);
   res.status(201).json(result);
 };
 
