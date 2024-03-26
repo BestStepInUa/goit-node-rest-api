@@ -24,15 +24,17 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-mongoose
-  .connect(DB_HOST)
-  .then(() => {
-    console.log('Database connection successful');
-    app.listen(3000, () => {
-      console.log('Server is running. Use our API on port: 3000');
-    });
-  })
-  .catch(error => {
-    console.error(error.message);
-    process.exit(1);
-  });
+console.log(process.env);
+
+// mongoose
+//   .connect(DB_HOST)
+//   .then(() => {
+//     console.log('Database connection successful');
+//     app.listen(3000, () => {
+//       console.log('Server is running. Use our API on port: 3000');
+//     });
+//   })
+//   .catch(error => {
+//     console.error(error.message);
+//     process.exit(1);
+//   });
