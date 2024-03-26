@@ -40,4 +40,4 @@ const listContacts = async () => Contact.find();
 // };
 
 // export default { listContacts, getContactById, addContact, removeContactById, updateContactById };
-export default listContacts;
+export default { listContacts };
