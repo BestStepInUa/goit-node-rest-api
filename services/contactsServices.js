@@ -1,6 +1,8 @@
 import Contact from '../models/Contact.js';
 
-const listContacts = async () => Contact.find();
+const listContacts = () => Contact.find();
+
+const addContact = data => Contact.create(data);
 
 // const getContactById = async id => {
 //   const contacts = await listContacts();
@@ -40,4 +42,4 @@ const listContacts = async () => Contact.find();
 // };
 
 // export default { listContacts, getContactById, addContact, removeContactById, updateContactById };
-export default { listContacts };
+export default { listContacts, addContact };

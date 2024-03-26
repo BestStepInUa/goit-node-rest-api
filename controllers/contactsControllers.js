@@ -2,9 +2,9 @@ import contactsService from '../services/contactsServices.js';
 
 import ctrlWrapper from '../decorators/ctrlWrapper.js';
 
-// import HttpError from '../helpers/HttpError.js';
+import HttpError from '../helpers/HttpError.js';
 
-// import { addContactSchema, updateContactSchema } from '../schemas/contactsSchemas.js';
+import { addContactSchema, updateContactSchema } from '../schemas/contactsSchemas.js';
 
 const getAll = async (req, res, next) => {
   const result = await contactsService.listContacts();
@@ -20,11 +20,11 @@ const getAll = async (req, res, next) => {
 //   res.json(result);
 // };
 
-// const addContact = async (req, res, next) => {
-//   const { name, email, phone } = req.body;
-//   const result = await contactsService.addContact(name, email, phone);
-//   res.status(201).json(result);
-// };
+const addContact = async (req, res, next) => {
+  const { name, email, phone } = req.body;
+  const result = await contactsService.addContact(name, email, phone);
+  res.status(201).json(result);
+};
 
 // const updateContact = async (req, res, next) => {
 //   const { id } = req.params;
@@ -48,6 +48,6 @@ export default {
   getAll: ctrlWrapper(getAll),
   // getById: ctrlWrapper(getById),
   // deleteContact: ctrlWrapper(deleteContact),
-  // addContact: ctrlWrapper(addContact),
+  addContact: ctrlWrapper(addContact),
   // updateContact: ctrlWrapper(updateContact),
 };
