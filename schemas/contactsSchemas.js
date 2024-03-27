@@ -1,8 +1,9 @@
 import Joi from 'joi';
+import { EMAIL_REXEP } from '../constants/contactsConstants.js';
 
 export const addContactSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string().required(),
+  email: Joi.string().pattern(EMAIL_REXEP).required(),
   phone: Joi.string().required(),
   favorite: Joi.boolean().required(),
 });
