@@ -1,21 +1,17 @@
 import Joi from 'joi';
-// import { PHONE_REXEP, EMAIL_REXEP } from '../constants/contactsConstants.js';
+import { emailRegexp, phoneRegexp } from '../constants/contactsConstants.js';
 
 export const addContactSchema = Joi.object({
   name: Joi.string().required(),
-  // email: Joi.string().pattern(EMAIL_REXEP).required(),
-  // phone: Joi.string().pattern(PHONE_REXEP).required(),
-  email: Joi.string().required(),
-  phone: Joi.string().required(),
-  favorite: Joi.boolean().required(),
+  email: Joi.string().pattern(emailRegexp).required(),
+  phone: Joi.string().pattern(phoneRegexp).required(),
+  favorite: Joi.boolean().default(false),
 });
 
 export const updateContactSchema = Joi.object({
   name: Joi.string(),
-  // email: Joi.string().pattern(EMAIL_REXEP),
-  // phone: Joi.string().pattern(PHONE_REXEP),
-  email: Joi.string(),
-  phone: Joi.string(),
+  email: Joi.string().pattern(emailRegexp),
+  phone: Joi.string().pattern(phoneRegexp),
   favorite: Joi.boolean(),
 })
   .min(1)

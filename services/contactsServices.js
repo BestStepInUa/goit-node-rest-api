@@ -1,45 +1,25 @@
 import Contact from '../models/Contact.js';
 
-const listContacts = () => Contact.find();
+const listContacts = () => Contact.find({}, '-createdAt -updatedAt');
 
 const addContact = data => Contact.create(data);
 
-// const getContactById = async id => {
-//   const contacts = await listContacts();
-//   const data = contacts.find(contact => contact.id === id);
-//   return data || null;
-// };
+const getContactById = id => {
+  const data = Contact.findById(id);
+  return data;
+};
 
-// const addContact = async (name, email, phone) => {
-//   const contacts = await listContacts();
-//   const newContact = {
-//     id: nanoid(),
-//     name,
-//     email,
-//     phone,
-//   };
-//   contacts.push(newContact);
-//   await updateContacts(contacts);
-//   return newContact;
-// };
+const updateContactById = (id, data) => Contact.findByIdAndUpdate(id, data);
 
-// const removeContactById = async id => {
-//   const contacts = await listContacts();
-//   const idx = contacts.findIndex(contact => contact.id === id);
-//   if (idx === -1) return null;
-//   const [data] = contacts.splice(idx, 1);
-//   await updateContacts(contacts);
-//   return data;
-// };
+const removeContactById = id => Contact.findByIdAndDelete(id);
 
-// const updateContactById = async (id, data) => {
-//   const contacts = await listContacts();
-//   const idx = contacts.findIndex(contact => contact.id === id);
-//   if (idx === -1) return null;
-//   contacts[idx] = { ...contacts[idx], ...data };
-//   await updateContacts(contacts);
-//   return contacts[idx];
-// };
+const updateContactStatusById = (id, data) => Contact.findByIdAndUpdate(id, data);
 
-// export default { listContacts, getContactById, addContact, removeContactById, updateContactById };
-export default { listContacts, addContact };
+export default {
+  listContacts,
+  addContact,
+  getContactById,
+  updateContactById,
+  removeContactById,
+  updateContactStatusById,
+};
