@@ -6,7 +6,7 @@ import HttpError from '../helpers/HttpError.js';
 
 const { JWT_SECRET } = process.env;
 
-const singup = async (req, res, next) => {
+const singup = async (req, res) => {
   const { email, password } = req.body;
   const user = await authServices.findUser({ email });
   if (user) throw HttpError(409, 'Email in use');
@@ -20,7 +20,7 @@ const singup = async (req, res, next) => {
   });
 };
 
-const singin = async (req, res, next) => {
+const singin = async (req, res) => {
   const { email, password } = req.body;
   const user = await authServices.findUser({ email });
   if (!user) throw HttpError(401, 'Email or password is wrong');
