@@ -13,7 +13,7 @@ const updateContactById = (id, data) => Contact.findByIdAndUpdate(id, data);
 
 const removeContactById = id => Contact.findByIdAndDelete(id);
 
-const updateContactStatusById = (id, data) => Contact.findByIdAndUpdate(id, data);
+const updateContactStatusById = (id, { favorite }) => Contact.findByIdAndUpdate(id, { favorite });
 
 export default {
   listContacts,
