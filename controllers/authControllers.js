@@ -1,12 +1,14 @@
+import bcrypt from 'bcrypt';
 import authServices from '../services/authServices.js';
 import ctrlWrapper from '../decorators/ctrlWrapper.js';
 import HttpError from '../helpers/HttpError.js';
 
 const singup = async (req, res, next) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
   const user = await authServices.findUser({ email });
   if (user) throw HttpError(409, 'Email in use');
-  const newUser = await authServices.singup(req.body);
+  const hashPassword = await bcrypt.hash(password, 10);
+  const newUser = await authServices.singup({ ...req.body, password: hashPassword });
   res.status(201).json({
     user: {
       email: newUser.email,
@@ -15,6 +17,17 @@ const singup = async (req, res, next) => {
   });
 };
 
+const singin = async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await authServices.findUser({ email });
+  if (!user) throw HttpError(401, 'Email or password is wrong');
+  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (!passwordCompare) throw HttpError(401, 'Email or password is wrong');
+  const token = '23.123.23232';
+  res.json({ token });
+};
+
 export default {
   singup: ctrlWrapper(singup),
+  singin: ctrlWrapper(singin),
 };
