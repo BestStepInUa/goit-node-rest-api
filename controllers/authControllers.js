@@ -1,7 +1,10 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import authServices from '../services/authServices.js';
 import ctrlWrapper from '../decorators/ctrlWrapper.js';
 import HttpError from '../helpers/HttpError.js';
+
+const { JWT_SECRET } = process.env;
 
 const singup = async (req, res, next) => {
   const { email, password } = req.body;
@@ -23,7 +26,9 @@ const singin = async (req, res, next) => {
   if (!user) throw HttpError(401, 'Email or password is wrong');
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) throw HttpError(401, 'Email or password is wrong');
-  const token = '23.123.23232';
+  const { _id: id } = user;
+  const payload = { id };
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' });
   res.json({ token });
 };
 
