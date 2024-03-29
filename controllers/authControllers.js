@@ -1,14 +1,20 @@
 import authServices from '../services/authServices.js';
-// import ctrlWrapper from '../decorators/ctrlWrapper.js';
-// import HttpError from '../helpers/HttpError.js';
+import ctrlWrapper from '../decorators/ctrlWrapper.js';
+import HttpError from '../helpers/HttpError.js';
 
-const singup = async (req, res) => {
+const singup = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await authServices.findUser({ email });
+  if (user) throw HttpError(409, 'Email in use');
   const newUser = await authServices.singup(req.body);
   res.status(201).json({
-    email: newUser.email,
+    user: {
+      email: newUser.email,
+      subscription: newUser.subscription,
+    },
   });
 };
 
 export default {
-  singup,
+  singup: ctrlWrapper(singup),
 };
