@@ -3,7 +3,8 @@ import ctrlWrapper from '../decorators/ctrlWrapper.js';
 import HttpError from '../helpers/HttpError.js';
 
 const getAll = async (req, res, next) => {
-  const result = await contactsServices.listContacts();
+  const { _id: owner } = req.user;
+  const result = await contactsServices.listContacts({ owner });
   res.json(result);
 };
 
