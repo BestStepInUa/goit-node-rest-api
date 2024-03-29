@@ -1,4 +1,4 @@
-import contactsService from '../services/contactsServices.js';
+import contactsServices from '../services/contactsServices.js';
 import ctrlWrapper from '../decorators/ctrlWrapper.js';
 import HttpError from '../helpers/HttpError.js';
 
