@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
-import { phoneRegexp, emailRegexp } from '../constants/contactsConstants.js';
+import { emailRegexp } from '../constants/constants.js';
+import { phoneRegexp } from '../constants/contactsConstants.js';
 import { handleSaveError, setUpdateSetting } from './hooks.js';
 
 const contactSchema = new Schema(
