@@ -4,8 +4,11 @@ import HttpError from '../helpers/HttpError.js';
 
 const getAll = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await contactsServices.listContacts({ owner });
-  res.json(result);
+  const { page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await contactsServices.listContacts({ owner }, { skip, limit });
+  const total = await contactsServices.countContacts({ owner });
+  res.json({ result, total });
 };
 
 const getById = async (req, res) => {

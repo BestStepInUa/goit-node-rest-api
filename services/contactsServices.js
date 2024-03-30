@@ -1,6 +1,9 @@
 import Contact from '../models/Contact.js';
 
-const listContacts = (filter = {}) => Contact.find(filter, '-createdAt -updatedAt');
+const listContacts = (filter = {}, setting = {}) =>
+  Contact.find(filter, '-createdAt -updatedAt', setting).populate('owner', 'email subscription');
+
+const countContacts = filter => Contact.countDocuments(filter);
 
 const addContact = data => Contact.create(data);
 
@@ -14,6 +17,7 @@ const updateContactStatusByFilter = (filter, data) => Contact.findOneAndUpdate(f
 
 export default {
   listContacts,
+  countContacts,
   addContact,
   getContactByFilter,
   updateContactByFilter,
