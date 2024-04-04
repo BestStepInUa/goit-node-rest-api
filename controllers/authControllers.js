@@ -61,21 +61,26 @@ const logout = async (req, res) => {
 const avatarsDir = path.resolve('public', 'avatars');
 
 const updateAvatar = async (req, res) => {
+  if (!req.file) throw HttpError(400, 'Not found');
+
   const { _id } = req.user;
-  const { path: tmpUpload, originalname } = req.file;
-  Jimp.read(tmpUpload)
-    .then(avatar => {
-      return avatar
-        .resize(250, 250) // resize
-        .write(originalname); // save
-    })
-    .catch(error => {
-      throw HttpError(400, error.message);
-    });
-  const resultUpload = path.join(avatarsDir, originalname);
-  await fs.rename(tmpUpload, resultUpload);
-  const avatarURL = path.join('avatars', originalname);
+  const { path: tempUpload, originalname } = req.file;
+
+  try {
+    const image = await Jimp.read(tempUpload);
+    await image.resize(250, 250);
+    await image.writeAsync(tempUpload);
+  } catch (error) {
+    console.error('Помилка обробки зображення:', error);
+    throw HttpError(500, 'Internal Server Error');
+  }
+
+  const filename = `${_id}_${originalname}`;
+  const resultUpload = path.join(avatarsDir, filename);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join('avatars', filename);
   await User.findByIdAndUpdate(_id, { avatarURL });
+
   res.json({
     avatarURL,
   });
