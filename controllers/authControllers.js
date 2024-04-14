@@ -61,15 +61,14 @@ const logout = async (req, res) => {
 const avatarsDir = path.resolve('public', 'avatars');
 
 const updateAvatar = async (req, res) => {
-  if (!req.file) throw HttpError(400, 'Not found');
+  if (!req.file) throw HttpError(400, 'An avatar file was not added to your request');
 
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
 
   try {
-    const image = await Jimp.read(tempUpload);
-    await image.resize(250, 250);
-    await image.writeAsync(tempUpload);
+    const img = await Jimp.read(tempUpload);
+    await img.resize(250, 250).writeAsync(tempUpload);
   } catch (error) {
     console.error('Помилка обробки зображення:', error);
     throw HttpError(500, 'Internal Server Error');
